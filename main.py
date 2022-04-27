@@ -9,6 +9,7 @@ from datetime import datetime
 import board
 import adafruit_mlx90614
 import socket
+import facial_recognition
 from subprocess import call
 
 
@@ -189,14 +190,29 @@ def start_recording():
             out.release()
             cv2.destroyAllWindows()
             break
-    
+
+def run_fac_recog():
+    # Check if the cam is set up with an owner
+    is_setup = facial_recognition.facial_recognition_check()
+
+    # If not, run verification process.
+    # Press 'c', to capture for both set-up and verification
+    if not is_setup:
+        facial_recognition.facial_recognition_setup("Facial_Recognition Setup", 0) \
+ \
+            # Check, Current user have to manually take a photo.
+    # Can move on forward with the recording function if
+    result = facial_recognition.facial_recognition_verification("Facial Verification", 0)
+    print("Is verified:", result["verified"])
         
 if __name__ == '__main__':
     thread1 = threading.Thread(target=start_recording)
     thread2 = threading.Thread(target=connect_devices)
-    
+    thread3 = threading.Thread(target=run_fac_recog)
+
     thread1.start()
     thread2.start()
-    
+    thread3.start()
+
     print("Active threads", threading.activeCount())
     
