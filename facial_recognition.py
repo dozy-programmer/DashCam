@@ -17,6 +17,7 @@ def facial_recognition_check():
 # Simple set-up process if it is a first time user
 # Once the camera window shows up, user have to manually press c with their face facing forward
 def facial_recognition_setup(cam_name, cam_num):
+    global camera, image
     cv2.namedWindow(cam_name)
     camera = cv2.VideoCapture(cam_num, cv2.CAP_DSHOW)
     face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
@@ -41,6 +42,16 @@ def facial_recognition_setup(cam_name, cam_num):
             cv2.destroyWindow(cam_name)
             break
 
+        if close_setup:
+            break
+
+
+def take_photo():
+    global close_setup
+    close_setup = True
+    cv2.imwrite("owner.jpeg", img=image)
+    camera.release()
+    cv2.destroyWindow("Facial_Recognition Setup")
 
 # Current user have to manually take picture, and it will verify if it matches with the owner photo
 # After that it will remove the picture

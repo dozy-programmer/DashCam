@@ -1,17 +1,14 @@
-from multiprocessing import Process
 from cv2 import cv2
-import numpy as np
 import time
 import threading
 import os
 from datetime import datetime
 
-import board
+# import board
+# only works on ras pi
 import adafruit_mlx90614
 import socket
 import facial_recognition
-from subprocess import call
-
 
 class send_data_thread(threading.Thread):
     def __init__(self, clientsocket, listensocket):
@@ -75,23 +72,26 @@ def device_communication(clientsocket, listensocket):
         
         
 def send_data(clientsocket, listensocket):
-    i2c = board.I2C()
-    mlx = adafruit_mlx90614.MLX90614(i2c)
-    
-    print("Sending Heat sensor")
-    while True:
-        try:
-            temp_to_f = convert_c_to_f(mlx.object_temperature) + "\n"
-            clientsocket.send(temp_to_f.encode())
-            print(f"Temp: {temp_to_f}")
-        except:
-            print("Connection was broken...trying again")
-            clientsocket = re_connect_devices(listensocket)
-            thread5 = read_data_thread(clientsocket, listensocket)
-            thread5.start()
-        time.sleep(2)
-        
-        
+    try:
+        i2c = board.I2C()
+        mlx = adafruit_mlx90614.MLX90614(i2c)
+
+        print("Sending Heat sensor")
+        while True:
+            try:
+                temp_to_f = convert_c_to_f(mlx.object_temperature) + "\n"
+                clientsocket.send(temp_to_f.encode())
+                print(f"Temp: {temp_to_f}")
+            except:
+                print("Connection was broken...trying again")
+                clientsocket = re_connect_devices(listensocket)
+                thread5 = read_data_thread(clientsocket, listensocket)
+                thread5.start()
+            time.sleep(2)
+    except:
+        print("Heat sensor not detected")
+
+
 def receive_data(clientsocket, listensocket):
     print("Listening...")
     try:
@@ -108,6 +108,9 @@ def receive_data(clientsocket, listensocket):
                 recording.release()
                 out.release()
                 cv2.destroyAllWindows()
+            elif command == "take_photo":
+                facial_recognition.take_photo()
+
     except:
         print("(Receiving) Connection was broken...trying again")
             
@@ -198,9 +201,8 @@ def run_fac_recog():
     # If not, run verification process.
     # Press 'c', to capture for both set-up and verification
     if not is_setup:
-        facial_recognition.facial_recognition_setup("Facial_Recognition Setup", 0) \
- \
-            # Check, Current user have to manually take a photo.
+        facial_recognition.facial_recognition_setup("Facial_Recognition Setup", 0)
+
     # Can move on forward with the recording function if
     result = facial_recognition.facial_recognition_verification("Facial Verification", 0)
     print("Is verified:", result["verified"])
