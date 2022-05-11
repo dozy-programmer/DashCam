@@ -1,114 +1,194 @@
 package com.akapps.dashcam;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.TextView;
-
+import com.google.android.material.card.MaterialCardView;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.concurrent.atomic.AtomicReference;
+import www.sanju.motiontoast.MotionToast;
 
 public class SocketConnection {
 
     // layout
     private TextView tempReading;
-    private TextView deviceStatus;
-    private ImageButton turnOffRasPi;
+    private TextView deviceName;
+    private MaterialCardView deviceStatus;
     private Context context;
 
     // class data
-    private static Socket s;
     private PrintWriter pw;
     private BufferedReader in;
     private int PORT = 8001;
-    private String IP = "192.168.4.1";
-
-    private Handler ha;
     private final int delay = 1000;
-
+    private int connectingTime = 0;
     private static String currentTemp = "";
-    public static boolean isRasTurnedOff;
 
-    public SocketConnection(Context context, TextView tempReading, TextView deviceStatus, ImageButton turnOffRasPi){
+    public SocketConnection(Context context, TextView tempReading, MaterialCardView deviceStatus, TextView deviceName){
         this.context = context;
         this.tempReading = tempReading;
+        this.deviceName = deviceName;
         this.deviceStatus = deviceStatus;
-        this.turnOffRasPi = turnOffRasPi;
-        ha = new Handler();
     }
 
-    public void connectSocket(){
-        ha.postDelayed(new Runnable() {
+    public void receiveData(){
+        new Thread(() -> {
+            try {
+                String response;
+                // continuously listen for data from raspberry pi
+                while(in.readLine() != null) {
+                    response = in.readLine();
+                    currentTemp = response;
+                    new Handler(Looper.getMainLooper()).post(() -> {
+                        // displays car temp for user to see
+                        if (null != currentTemp && !currentTemp.isEmpty()) {
+                            if(currentTemp.contains("send_image")) {
+                                // ensures if statement only runs once
+                                if(!AppData.sendingImage) {
+                                    AppData.sendingImage = true;
+                                    ((MainActivity) context).sendImageToRasPi(AppData.pathToImageTaken);
+                                }
+                            }
+                            else if(currentTemp.contains("image_received_success")){
+                                // ensures if statement only runs once
+                                if(!AppData.isImageSent) {
+                                    AppData.isImageSent = true;
+                                    Helper.openMessageSheet((MainActivity) context, "Image Status",
+                                            "Image Received & Face Detected", 0,
+                                            context.getString(R.string.message_type_success));
+                                    AppData.currentLayout = context.getString(R.string.connected_mode);
+                                    ((MainActivity)context).showCurrentLayout();
+                                }
+                            }
+                            else if(currentTemp.contains("image_received_fail")){
+                                // ensures if statement only runs once
+                                if(!AppData.isImageSent) {
+                                    AppData.isImageSent = true;
+                                    // deletes image taken if no face was detected in picture
+                                    File imageFile = new File(AppData.pathToImageTaken);
+                                    if (imageFile.exists()) {
+                                        if (imageFile.delete())
+                                        AppData.allPhotos.remove(AppData.allPhotos.size()-1);
+                                        Helper.saveArrayList(context, AppData.allPhotos);
+                                        AppData.currentLayout = context.getString(R.string.set_up_mode);
+                                        ((MainActivity)context).showCurrentLayout();
+                                    }
+                                    Helper.openMessageSheet((MainActivity)context, "Image Status",
+                                            "Face not detected in photo send, please resend", 0,
+                                            context.getString(R.string.message_type_error));
+                                }
+                            }
+                            else if(currentTemp.contains("resend_image")){
+                                // reset values
+                                AppData.isImageSent = AppData.sendingImage = false;
+                                // resend image
+                                ((MainActivity) context).sendImageToRasPi(AppData.pathToImageTaken);
+                            }
+                            else if(currentTemp.contains("*")) {
+                                // getting raspberry pi device name
+                                Helper.savePreference(context, currentTemp.split("_")[1].replace("*", ""), "device_name");
+                                deviceName.setText("Device Name\n\n" + currentTemp.split("_")[1].replace("*", ""));
+                            }
+                            currentTemp = currentTemp.split("_")[0];
+                            // update layout to view temp reading
+                            if (tempReading.getVisibility() != TextView.VISIBLE) {
+                                tempReading.setVisibility(View.VISIBLE);
+                                deviceStatus.setCardBackgroundColor(context.getColor(R.color.dark_green));
+                            }
+                            String currentCarTemp = currentTemp + context.getString(R.string.default_temp);
+                            tempReading.setText(context.getString(R.string.temp) + "\n" + currentCarTemp);
+                        }
+                        else {
+                            // device is disconnected
+                            AppData.disconnectFromDevice(context);
+                            deviceStatus.setCardBackgroundColor(context.getColor(R.color.red));
+                            AppData.currentLayout = context.getString(R.string.no_mode);
+                            ((MainActivity)context).showCurrentLayout();
+                        }
+                    });
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
+    public void connectDevice() {
+        // show loading screen
+        AppData.progressDialog = Helper.showLoading("Connecting to\n" + Helper.getPreference(context,
+                context.getString(R.string.ip_address_key)) + "...", AppData.progressDialog, context, true);
+
+        AppData.socketHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (s == null) {
+                if (AppData.socket == null) {
                     new Thread(() -> {
                         try {
-                            s = new Socket(IP, PORT);
-                            in = new BufferedReader(new InputStreamReader(s.getInputStream()));
-                            Log.d("Here", "Connecting...");
-                            String response = null;
-                            while(in.readLine() != null) {
-                                response = in.readLine();
-                                Log.d("Here", "Received: --> " + response);
-                                currentTemp = response;
+                            // attempts to connect to raspberry pi, if nothings happens
+                            // in 20-30 seconds, then it stops trying to connect
+                            connectingTime += delay * 3;
+                            if(connectingTime >= 20000) {
+                                AppData.socketHandler.removeCallbacks(this);
+                                // close loading screen
+                                Helper.showLoading("", AppData.progressDialog, context, false);
                                 new Handler(Looper.getMainLooper()).post(() -> {
-                                    // displays car temp for user to see
-                                    if (tempReading != null && null != currentTemp && !currentTemp.isEmpty()) {
-                                        if(tempReading.getVisibility() != TextView.VISIBLE)
-                                            tempReading.setVisibility(View.VISIBLE);
-                                        String currentCarTemp = currentTemp + context.getString(R.string.default_temp);
-                                        tempReading.setText(currentCarTemp);
-                                        deviceStatus.setText("Status: Connected");
-                                    }
-                                    else {
-                                        deviceStatus.setText("Status: Not Connected");
-                                        tempReading.setVisibility(View.INVISIBLE);
-                                    }
+                                    Helper.showMessage((Activity) context, "No device Found",
+                                            "Make sure ras pi is running and try again",
+                                            MotionToast.TOAST_ERROR);
                                 });
                             }
+                            // attempts to connect to raspberry pi
+                            AppData.socket = new Socket(Helper.getPreference(context,
+                                    context.getString(R.string.ip_address_key)), PORT);
+                            in = new BufferedReader(new InputStreamReader(AppData.socket.getInputStream()));
+                            Log.d("Here", "Connected!");
+                            new Handler(Looper.getMainLooper()).post(() -> {
+                                // checks to see if user has ever taken a photo, if not enter setup mode
+                                if(!AppData.isSetUpMode)
+                                    AppData.currentLayout = context.getString(R.string.connected_mode);
+                                else
+                                    AppData.currentLayout = context.getString(R.string.set_up_mode);
+                                // update layout
+                                ((MainActivity) context).showCurrentLayout();
+                                Helper.showMessage((Activity) context, "Device Found", "Connected to Ras Pi",
+                                        MotionToast.TOAST_SUCCESS);
+                                deviceStatus.setCardBackgroundColor(context.getColor(R.color.dark_green));
+                            });
+                            // close loading screen
+                            Helper.showLoading("", AppData.progressDialog, context, false);
+                            // continuously listen for data from raspberry pu
+                            receiveData();
+                            // stop running this method
+                            AppData.socketHandler.removeCallbacks(this);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
                     }).start();
                 }
-                ha.postDelayed(this, delay);
+                AppData.socketHandler.postDelayed(this, delay * 5);
             }
         }, delay);
     }
 
     public void sendData(String action) {
-        // connects to raspberry pi and waits to receive information
+        // sends data to raspberry pi
         new Thread(() -> {
             try {
-                Log.d("Here", "Sending data");
-                if (!s.isConnected()) {
-                    Log.d("Here", "Socket not connected");
-                    s = new Socket(IP, PORT);
-                }
-                else
-                    Log.d("Here", "Socket  connected");
-                pw = new PrintWriter(s.getOutputStream());
+                // attempts to reconnect socket if not connected
+                if (!AppData.socket.isConnected())
+                    AppData.socket = new Socket(Helper.getPreference(context, context.getString(R.string.ip_address_key)), PORT);
+
+                pw = new PrintWriter(AppData.socket.getOutputStream());
                 pw.write(action);
-                new Handler(Looper.getMainLooper()).post(() -> {
-                    tempReading.setVisibility(View.VISIBLE);
-                    tempReading.setText("Turned off");
-                    turnOffRasPi.setImageDrawable(context.getDrawable(R.drawable.refresh_icon));
-                    isRasTurnedOff = true;
-                });
                 pw.flush();
-                pw.close();
-                s.close();
-            } catch (UnknownHostException e) {
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }

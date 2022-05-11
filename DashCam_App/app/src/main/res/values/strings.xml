@@ -3,4 +3,49 @@
     <string name="empty_temp">_°F</string>
     <string name="default_temp">°F</string>
     <string name="off_command">turn_off</string>
+    <string name="connect">Connect</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="take_photo">Take Photo</string>
+    <string name="close">CLOSE</string>
+    <string name="next">SEND</string>
+    <string name="shutdown">Shutdown</string>
+    <string name="reboot">Reboot</string>
+    <string name="setting_up_text">Setting up:\nTake a Selfie</string>
+    <string name="face_detected">Face Detected</string>
+    <string name="face_not_detected">Face Not Detected</string>
+    <string name="temp">Temp\n</string>
+    <string name="ip">IP</string>
+    <string name="device_name">Device Name</string>
+    <string name="user_name">User Name</string>
+    <string name="input_error">Incorrect Input</string>
+
+    <string name="no_mode">no_connection_mode</string>
+    <string name="set_up_mode">setup_mode</string>
+    <string name="connected_mode">connected_mode</string>
+
+    <!-- Preference Keys !-->
+    <string name="photos_key">photos</string>
+    <string name="user_name_key">user_name_key</string>
+    <string name="ip_address_key">ip_address</string>
+    <string name="device_name_key">device_name</string>
+
+    <!-- Settings Sheet !-->
+    <string name="settings_title">Settings</string>
+    <string name="user_name_hint">Your Name</string>
+    <string name="ip_address_hint">Raspberry Pi IP Address</string>
+
+    <!-- Message Sheet !-->
+    <string name="message_title">Title</string>
+    <string name="empty_text">Nothing to see here</string>
+    <string name="message_type_info">info</string>
+    <string name="message_type_success">success</string>
+    <string name="message_type_error">error</string>
+    <string name="set_up_title">Info</string>
+    <string name="setup_message">- IP Address should match your Raspberry Pi\'s\n- This app will not connect to your Raspberry Pi otherwise</string>
+
+    <!-- Commands !-->
+    <string name="dismiss">Dismiss</string>
+    <string name="click_here">*Click Here*</string>
+    <string name="take_selfie">Take a Selfie</string>
+    <string name="photos_message">Long click to select photo\nLong click delete icon to delete</string>
 </resources>

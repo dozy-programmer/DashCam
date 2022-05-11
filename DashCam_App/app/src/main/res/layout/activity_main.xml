@@ -13,90 +13,283 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:backgroundTint="@color/light_gray"
+            android:elevation="4dp"
+            android:src="@drawable/settings_icon"
+            app:backgroundTint="@color/light_gray"
+            app:borderWidth="1dp"
+            app:elevation="2dp"
+            app:fabCustomSize="50dp"
+            app:layout_constraintBottom_toBottomOf="@+id/title_layout"
+            app:layout_constraintEnd_toEndOf="@+id/title_layout"
+            app:layout_constraintTop_toTopOf="@+id/title_layout" />
+
+
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/title_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_height="60dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="30dp"
             app:cardBackgroundColor="@color/light_gray"
             app:cardCornerRadius="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageButton
-                android:id="@+id/turn_off_ras_pi"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="left"
-                android:backgroundTint="@android:color/transparent"
-                android:src="@drawable/power_icon"></ImageButton>
-
             <TextView
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:padding="10dp"
-                android:text="DashCam"
-                android:textColor="@color/orange"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/temp_read"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="right"
-                android:gravity="center_vertical"
-                android:padding="10dp"
-                android:text="@string/empty_temp"
-                android:textColor="@color/ultra_white"
-                android:textSize="12sp"
+                android:paddingVertical="15dp"
+                android:text="@string/app_name"
+                android:textColor="@color/orange_red"
+                android:textSize="24sp"
                 android:textStyle="bold" />
 
         </com.google.android.material.card.MaterialCardView>
 
-        <TextView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/device_status"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="15dp"
+            app:cardBackgroundColor="@color/red"
+            app:cardCornerRadius="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/no_device_connected_animation"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="30dp"
+            android:backgroundTint="@color/blue"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@+id/action_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/device_status"
+            app:layout_constraintVertical_bias="0.501"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/not_connected" />
+
+        <TextView
+            android:id="@+id/set_up_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:padding="10dp"
-            android:text="Status: Null"
+            android:gravity="center"
+            android:paddingVertical="15dp"
+            android:text="@string/setting_up_text"
             android:textColor="@color/ultra_white"
-            android:textSize="16sp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title_layout" />
 
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/picture_taken"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:background="@color/light_gray"
+            app:layout_constraintBottom_toTopOf="@+id/action_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/set_up_text"
+            app:shapeAppearanceOverlay="@style/roundedImageView" />
 
-        <ImageButton
-            android:id="@+id/stop_recording"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_gravity="left"
-            android:backgroundTint="@color/light_gray"
-            android:src="@drawable/stop_recording"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/take_photo"
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/take_picture_animation"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="50dp"
+            android:layout_marginVertical="60dp"
+            android:backgroundTint="@color/blue"
+            android:visibility="invisible"
+            android:elevation="5dp"
+            app:layout_constraintBottom_toTopOf="@+id/action_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/set_up_text"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/camera_animation" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/dashboard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:visibility="invisible"
+            app:cardBackgroundColor="@color/light_gray"
+            app:cardCornerRadius="20dp"
+            app:layout_constraintBottom_toTopOf="@+id/action_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/device_status">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="20dp"
+                android:paddingVertical="20dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/user_photo"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:padding="10dp"
+                    android:src="@drawable/user_icon"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shapeAppearanceOverlay="@style/profileImage"
+                    app:strokeColor="@color/darker_blue"
+                    app:strokeWidth="2dp" />
+
+                <TextView
+                    android:id="@+id/user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:text="@string/user_name"
+                    android:textColor="@color/ultra_white"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/user_photo" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/device_name_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="5dp"
+                    android:layout_marginRight="5dp"
+                    app:cardBackgroundColor="@color/darker_blue"
+                    app:cardCornerRadius="15dp"
+                    app:layout_constraintEnd_toStartOf="@+id/ip_layout"
+                    app:layout_constraintStart_toStartOf="@+id/temp_layout"
+                    app:layout_constraintTop_toBottomOf="@+id/user_name">
+
+                    <TextView
+                        android:id="@+id/device_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingHorizontal="15dp"
+                        android:paddingVertical="25dp"
+                        android:text="@string/device_name"
+                        android:textColor="@color/ultra_white"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/ip_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="5dp"
+                    android:layout_marginLeft="5dp"
+                    app:cardBackgroundColor="@color/dark_green"
+                    app:cardCornerRadius="15dp"
+                    app:layout_constraintEnd_toEndOf="@+id/temp_layout"
+                    app:layout_constraintStart_toEndOf="@+id/device_name_layout"
+                    app:layout_constraintTop_toBottomOf="@+id/user_name">
+
+                    <TextView
+                        android:id="@+id/ip_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingHorizontal="15dp"
+                        android:paddingVertical="25dp"
+                        android:text="@string/ip"
+                        android:textColor="@color/ultra_white"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/temp_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_marginVertical="10dp"
+                    app:cardBackgroundColor="@color/orange"
+                    app:cardCornerRadius="15dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/device_name_layout">
+
+                    <TextView
+                        android:id="@+id/temp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingHorizontal="15dp"
+                        android:paddingVertical="25dp"
+                        android:text="@string/temp"
+                        android:textColor="@color/ultra_white"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/take_photo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:padding="15dp"
+            android:text="Send Photo"
+            android:textColor="@color/ultra_white"
+            app:backgroundTint="@color/sunset_orange"
+            app:cornerRadius="20dp"
+            app:layout_constraintBottom_toBottomOf="@+id/action_button"
+            app:layout_constraintEnd_toStartOf="@+id/action_button"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/device_status"
-            app:tint="@color/blue"></ImageButton>
+            app:layout_constraintTop_toTopOf="@+id/action_button" />
 
-        <ImageButton
-            android:id="@+id/take_photo"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_gravity="left"
-            android:backgroundTint="@color/light_gray"
-            android:src="@drawable/take_photo"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/action_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="16dp"
+            android:padding="15dp"
+            android:text="@string/connect"
+            android:textColor="@color/ultra_white"
+            app:backgroundTint="@color/darker_blue"
+            app:cornerRadius="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/stop_recording"
-            app:layout_constraintTop_toBottomOf="@+id/device_status"></ImageButton>
+            app:layout_constraintStart_toEndOf="@+id/take_photo"></com.google.android.material.button.MaterialButton>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
