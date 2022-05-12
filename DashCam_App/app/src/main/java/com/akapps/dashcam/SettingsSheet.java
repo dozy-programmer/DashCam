@@ -40,8 +40,8 @@ public class SettingsSheet extends RoundedBottomSheetDialogFragment{
         FloatingActionButton submitButton = view.findViewById(R.id.submit);
         TextView photosMessage = view.findViewById(R.id.photos_message);
 
-        // if connected to raspberry pi, then show images
-        if(AppData.currentLayout.equals(getContext().getString(R.string.connected_mode))) {
+        // if connected to raspberry pi and not in setup mode, then show images
+        if(!AppData.isSetUpMode) {
             RecyclerView photosScrollView = view.findViewById(R.id.owner_photos);
             photosScrollView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
             RecyclerView.Adapter scrollAdapter = new owner_photos_recyclerview(AppData.allPhotos, getActivity(), getContext());

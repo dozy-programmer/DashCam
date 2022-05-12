@@ -57,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         context = this;
 
+        // delete cache to decrease app size
+        Helper.deleteCache(context);
+
         initLayout();
 
         // initialize data

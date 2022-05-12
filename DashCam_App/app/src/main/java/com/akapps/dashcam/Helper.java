@@ -21,6 +21,8 @@ import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.stfalcon.imageviewer.StfalconImageViewer;
+
+import java.io.File;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import www.sanju.motiontoast.MotionToast;
@@ -30,10 +32,12 @@ public class Helper {
     // uses Glide to populate image in an imageview
     public static void setImage(Context context, String image, View imageView, boolean centerCrop){
         if(centerCrop)
-            Glide.with(context).load(image).centerCrop().placeholder(context.getDrawable(R.drawable.error_icon))
+            Glide.with(context).load(image).skipMemoryCache(true).centerCrop()
+                    .placeholder(context.getDrawable(R.drawable.error_icon))
                 .into((ImageView) imageView);
         else
-            Glide.with(context).load(image).placeholder(context.getDrawable(R.drawable.error_icon))
+            Glide.with(context).load(image).skipMemoryCache(true)
+                    .placeholder(context.getDrawable(R.drawable.error_icon))
                     .into((ImageView) imageView);
     }
 
@@ -170,5 +174,29 @@ public class Helper {
         }catch (Exception e){}
 
         return progressDialog;
+    }
+
+    public static void deleteCache(Context context) {
+        try {
+            File dir = context.getCacheDir();
+            deleteDir(dir);
+        } catch (Exception e) { e.printStackTrace();}
+    }
+
+    public static boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+            return dir.delete();
+        } else if(dir!= null && dir.isFile()) {
+            return dir.delete();
+        } else {
+            return false;
+        }
     }
 }
