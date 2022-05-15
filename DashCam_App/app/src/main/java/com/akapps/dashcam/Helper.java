@@ -32,11 +32,11 @@ public class Helper {
     // uses Glide to populate image in an imageview
     public static void setImage(Context context, String image, View imageView, boolean centerCrop){
         if(centerCrop)
-            Glide.with(context).load(image).skipMemoryCache(true).centerCrop()
+            Glide.with(context).load(image).centerCrop()
                     .placeholder(context.getDrawable(R.drawable.error_icon))
-                .into((ImageView) imageView);
+                    .into((ImageView) imageView);
         else
-            Glide.with(context).load(image).skipMemoryCache(true)
+            Glide.with(context).load(image)
                     .placeholder(context.getDrawable(R.drawable.error_icon))
                     .into((ImageView) imageView);
     }

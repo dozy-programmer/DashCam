@@ -75,11 +75,12 @@ public class SocketConnection {
                                     // deletes image taken if no face was detected in picture
                                     File imageFile = new File(AppData.pathToImageTaken);
                                     if (imageFile.exists()) {
-                                        if (imageFile.delete())
+                                        imageFile.delete();
                                         AppData.allPhotos.remove(AppData.allPhotos.size()-1);
                                         Helper.saveArrayList(context, AppData.allPhotos);
                                         AppData.currentLayout = context.getString(R.string.set_up_mode);
                                         ((MainActivity)context).showCurrentLayout();
+
                                     }
                                     Helper.openMessageSheet((MainActivity)context, "Image Status",
                                             "Face not detected in photo send, please resend", 0,
