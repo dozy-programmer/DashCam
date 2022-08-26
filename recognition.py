@@ -13,7 +13,6 @@ def detect_face(image_to_check):
 
     for (x, y, w, h) in faces:
         cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 255), 2)
-        # if it attempts to draw a rectangle, it means a face was found
         if x or y or w or h > 0:
             is_face_detected = True
      
@@ -36,7 +35,6 @@ def detect_face(image_to_check):
 def get_driver_photo():
     # takes a picture when a face is detected and compares it to owner photos
     print("Looking for Owner...")
-    # not recognized faces will be put in Unverified_Driver Folder
     driver_folder = helper.create_folder(os.getcwd(), "Unverified_Driver")
     face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
     webcam = cv2.VideoCapture(1)
@@ -44,7 +42,6 @@ def get_driver_photo():
     looking_for_driver = True
     save_verification_pic = ""
     start = time.time()
-    mins_looking_for_owner = 5
         
     while looking_for_driver:
         ret, image = webcam.read()
@@ -66,7 +63,7 @@ def get_driver_photo():
                 
         end = time.time()
         # attempts to find owner for 5 mins
-        if end-start >= mins_looking_for_owner * 60:
+        if end-start >= 300:
             print(f"Owner not found")
             looking_for_driver = False
                 

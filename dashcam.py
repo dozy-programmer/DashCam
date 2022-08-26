@@ -5,11 +5,13 @@ import time
 import threading
 import os
 from datetime import datetime
+
 import board
 import adafruit_mlx90614
 import socket
 from subprocess import call
 from picamera import PiCamera
+
 import recognition
 import helper
 
@@ -30,6 +32,10 @@ class read_data_thread(threading.Thread):
 
     def run(self):
         receive_data(self.clientsocket, self.listensocket)
+
+
+def convert_c_to_f(temp_in_c):
+    return str(round(temp_in_c * (9/5) + 32, 2))
 
 
 def re_connect_devices(listensocket):
@@ -62,10 +68,10 @@ def connect_devices():
 
 
 def device_communication(clientsocket, listensocket):
-    thread1 = send_data_thread(clientsocket, listensocket)
-    thread2 = read_data_thread(clientsocket, listensocket)
-    thread1.start()
-    thread2.start()
+    thread4 = send_data_thread(clientsocket, listensocket)
+    thread5 = read_data_thread(clientsocket, listensocket)
+    thread4.start()
+    thread5.start()
         
         
 def send_data(clientsocket, listensocket):
@@ -124,7 +130,6 @@ def receive_image(clientsocket, listensocket):
         if "image_sent".encode('utf_8') in data_received:
             received_image_size = os.path.getsize(fname) / 1024
             original_file_size = int(data_received.decode('utf-8').split('~')[1])
-            # ensures size of files received and original are only at most 50 bytes off 
             if abs(received_image_size - original_file_size) <= 50:
                 if recognition.detect_face(fname):
                     send_command = "image_received_success"
@@ -138,8 +143,8 @@ def receive_image(clientsocket, listensocket):
             f.write(data_received) # writes data to file
     
     # restart listening to socket data
-    thread = read_data_thread(clientsocket, listensocket)
-    thread.start()
+    thread5 = read_data_thread(clientsocket, listensocket)
+    thread5.start()
 
         
 def start_recording():
@@ -164,8 +169,17 @@ def start_recording():
     camera.start_recording(recording_path)
     print("Recording started...")
     camera.start_preview(fullscreen = False, window = (50,700,400,400))
-    # checks if owner is driving the car
-    start_detecting_driver()
+    
+    if os.path.exists(os.path.join(os.getcwd(), "Owner")) == True:
+        owner_folder = os.path.join(os.getcwd(), "Owner")
+        count = sum([len(files) for r, d, files in os.walk(owner_folder)])
+        if count > 0 :
+            start_detecting_driver()
+        else:
+            print("No owner photos found, please use app to populate")
+    else:
+        print("No owner photos found, please use app to populate")
+            
     camera.wait_recording(1000)
     
     
@@ -175,10 +189,10 @@ def init():
     break_status = False
     
 def detect_low_storage_space():
+    
     gb_to_byte = 1000000000
     mb_to_byte = gb_to_byte / 1000
-    # 45 GB is the max of what the recording folder should hold
-    max_folder_size = 45 * gb_to_byte
+    max_folder_size = 45 * gb_to_byte # 40 GB converted to Bytes
     recording_dir = os.getcwd() + "/Recordings"
     
     while True:
@@ -212,16 +226,16 @@ def detect_low_storage_space():
         
 def start_detecting_driver():
     global camera, recording_path
-    get_driver_photo_thread = threading.Thread(target=recognition.get_driver_photo)
-    get_driver_photo_thread.start()
+    thread4 = threading.Thread(target=recognition.get_driver_photo)
+    thread4.start()
         
 if __name__ == '__main__':
     init()
     
-    start_recording_thread = threading.Thread(target=start_recording)
-    connect_devices_thread = threading.Thread(target=connect_devices)
-    detect_low_storage_space_thread = threading.Thread(target=detect_low_storage_space)
+    thread1 = threading.Thread(target=start_recording)
+    thread2 = threading.Thread(target=connect_devices)
+    thread3 = threading.Thread(target=detect_low_storage_space)
     
-    start_recording_thread.start()
-    connect_devices_thread.start()
-    detect_low_storage_space_thread.start()
+    thread1.start()
+    thread2.start()
+    thread3.start()
