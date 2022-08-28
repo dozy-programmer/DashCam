@@ -60,6 +60,7 @@ def connect_devices():
     listensocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     listensocket.bind(("", Port))
     listensocket.listen(maxConnections)
+    print("Listening for connection...")
     
     while True:
         (clientsocket, address) = listensocket.accept()
@@ -176,9 +177,9 @@ def start_recording():
         if count > 0 :
             start_detecting_driver()
         else:
-            print("No owner photos found, please use app to populate")
+            print("No owner photos found, please use app to set-up")
     else:
-        print("No owner photos found, please use app to populate")
+        print("No owner photos found, please use app to set-up")
             
     camera.wait_recording(1000)
     

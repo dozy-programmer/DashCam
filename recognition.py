@@ -19,7 +19,7 @@ def detect_face(image_to_check):
     # delete image received if it does not contain a face 
     if is_face_detected == False:
         os.remove(image_to_check)
-        print(f"Face not detected in photo, deleting received file {image_to_check}")
+        print(f"Face not detected in photo, lighting might be an issue")
     else:
         print("Face detected in received Photo")
         # catches error if file exists and deletes it
@@ -88,10 +88,10 @@ def compare_faces(current_driver):
         results = face_recognition.compare_faces([owner_encoding], unknown_driver_encoding)
 
         if results[0] == True:
-            print("Owner verified!")
+            print("Owner verified, have a great drive!")
             os.remove(current_driver)
             return True
         else:
-            print("Detected another face!")
+            print("Detected another face! Trying again in 2-4 seconds!")
             time.sleep(10)
             return False
