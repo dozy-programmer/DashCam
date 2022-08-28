@@ -20,6 +20,7 @@ The Raspberry Pi 3 can be connected to an Android app I made in order to help in
 ## Table of contents
 * [Materials](#materials)
 * [App Layout](#app-layout)
+* [Video Demo](#view-demo)
 * [Features](#features)
 * [Tools](#tools)
 * [Download](#download)
@@ -32,15 +33,34 @@ The Raspberry Pi 3 can be connected to an Android app I made in order to help in
 * Portable Battery
 * Heat Sensor
 
+[TO DO] --> [Add Photos of Project]
+
 ## App Layout
 
-TO DO | TO DO | TO DO | TO DO
-:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
+No Connection | Setting Up | Take Selfie | Sending Photo | Image Received | Dashboard | Settings Page
+:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
+<img src="ScreenShots/Regular%20Device/waiting_for_connection_oneplus-oneplus8pro-portrait.png" width="310" /> | <img src="ScreenShots/Regular%20Device/Initial_set_up_oneplus-oneplus8pro-portrait.png" width="460" /> | <img src="ScreenShots/Regular%20Device/device_connected_for_setup_oneplus-oneplus8pro-portrait.png" width="500" /> | <img src="ScreenShots/Regular%20Device/sending_photo_oneplus-oneplus8pro-portrait.png" width="420" /> |<img src="ScreenShots/Regular%20Device/image_received_oneplus-oneplus8pro-portrait.png" width="420" /> |<img src="ScreenShots/Regular%20Device/device_connected_oneplus-oneplus8pro-portrait.png" width="350" /> |<img src="ScreenShots/Regular%20Device/settings_page_oneplus-oneplus8pro-portrait.png" width="420" /> 
 
+## Video Demo
+
+[TO DO] --> [Add video demo of project]
 
 ## Features
-
-* TO DO
+* No Connection:
+	* current view when the the Android App is not connected to the Raspberry Pi.
+* Settings Up:
+	* When first connected and there has been no photos send, the set-up screen comes up.
+* Take Selfie:
+	* User has to take a photo to send to Raspberry Pi.
+	* This photo is going to be the "Owner" photo that will be used to detect if the owner is driving the car via facial recognition.
+* Sending Photo:
+	* Sends the image taken and returns a message to verify the file was correctly sent over.
+* Image Receieved:
+	* Message states whether the photo was received and if the photo contains a face as required.
+* Dashboard:
+	* This shows the Raspberry Pi device name, it's IP Address, and returns the current temperature continuously every 4 seconds from the Raspberry Pi heat sensor.
+* Settings Page:
+	* This shows the owner name, the device IP Address (which can be edited), and the image(s) of the owner that were sent.
 	
 ## Tools
 * Android Studio
