@@ -39,7 +39,7 @@ The Raspberry Pi 3 can be connected to an Android app I made in order to help in
 
 No Connection | Setting Up | Take Selfie | Sending Photo 
 :-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
-<img src="ScreenShots/Regular%20Device/waiting_for_connection_oneplus-oneplus8pro-portrait.png" width="250" height="450"/> | <img src="ScreenShots/Regular%20Device/Initial_set_up_oneplus-oneplus8pro-portrait.png" width="320" height="450"/> | <img src="ScreenShots/Regular%20Device/device_connected_for_setup_oneplus-oneplus8pro-portrait.png" width="250" height="450"/> | <img src="ScreenShots/Regular%20Device/sending_photo_oneplus-oneplus8pro-portrait.png" width="250" height="450"/> 
+<img src="ScreenShots/Regular%20Device/waiting_for_connection_oneplus-oneplus8pro-portrait.png" width="250" height="450"/> | <img src="ScreenShots/Regular%20Device/Initial_set_up_oneplus-oneplus8pro-portrait.png" width="250" height="450"/> | <img src="ScreenShots/Regular%20Device/device_connected_for_setup_oneplus-oneplus8pro-portrait.png" width="250" height="450"/> | <img src="ScreenShots/Regular%20Device/sending_photo_oneplus-oneplus8pro-portrait.png" width="250" height="450"/> 
 
 Image Received | Dashboard | Settings Page
 :-------------------------:|:-------------------------:|:-------------------------:
