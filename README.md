@@ -20,7 +20,7 @@ The Raspberry Pi 3 can be connected to an Android app I made in order to help in
 ## Table of contents
 * [Materials](#materials)
 * [App Layout](#app-layout)
-* [Video Demo](#view-demo)
+* [Video Demo](#video-demo)
 * [Features](#features)
 * [Tools](#tools)
 * [Download](#download)
