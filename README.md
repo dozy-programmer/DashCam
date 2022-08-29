@@ -33,7 +33,9 @@ The Raspberry Pi 3 can be connected to an Android app I made in order to help in
 * Portable Battery
 * Heat Sensor
 
-[TO DO] --> [Add Photos of Project]
+Front | Top | Right
+:-------------------------:|:-------------------------:|:-------------------------:
+<img src="ScreenShots/Project/front_view.jpg" width="350" height="450"/> | <img src="ScreenShots/Project/top_view.jpg" width="350" height="450"/> | <img src="ScreenShots/Project/right_view.jpg" width="350" height="450"/>
 
 ## App Layout
 
