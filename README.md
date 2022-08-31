@@ -48,9 +48,13 @@ Image Received | Dashboard | Settings Page
 <img src="ScreenShots/Regular%20Device/image_received_oneplus-oneplus8pro-portrait.png" width="250" height="450"/> |<img src="ScreenShots/Regular%20Device/device_connected_oneplus-oneplus8pro-portrait.png" width="250" height="450"/> |<img src="ScreenShots/Regular%20Device/settings_page_oneplus-oneplus8pro-portrait.png" width="250" height="450"/> 
 
 ## Video Demo
-Click to Play DashCam Demo in Youtube
+Click Image to play Demo on Youtube
 
 [![DashCam Demo](https://img.youtube.com/vi/S2IzMhv6rL8/0.jpg)](https://youtu.be/S2IzMhv6rL8)
+
+A note about the video: Front camera was not able to detect the face of John Cena on the phone because of brightness. 
+Subtle jokes are made about the camera not being able to view John Cena's face on the phone, but this is for humor. DashCam
+is much better at detecting real human beings versus a tiny face on a phone. 
 
 ## Features
 * No Connection:
