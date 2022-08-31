@@ -48,8 +48,9 @@ Image Received | Dashboard | Settings Page
 <img src="ScreenShots/Regular%20Device/image_received_oneplus-oneplus8pro-portrait.png" width="250" height="450"/> |<img src="ScreenShots/Regular%20Device/device_connected_oneplus-oneplus8pro-portrait.png" width="250" height="450"/> |<img src="ScreenShots/Regular%20Device/settings_page_oneplus-oneplus8pro-portrait.png" width="250" height="450"/> 
 
 ## Video Demo
+Click to Play DashCam Demo in Youtube
 
-[TO DO] --> [Add video demo of project]
+[![DashCam Demo](https://img.youtube.com/vi/S2IzMhv6rL8/0.jpg)](https://youtu.be/S2IzMhv6rL8)
 
 ## Features
 * No Connection:
