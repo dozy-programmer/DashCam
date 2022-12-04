@@ -33,19 +33,27 @@ The Raspberry Pi 3 can be connected to an Android app I made in order to help in
 * Portable Battery
 * Heat Sensor
 
-Front | Top | Right
-:-------------------------:|:-------------------------:|:-------------------------:
-<img src="ScreenShots/Project/front_view.jpg" width="350" height="450"/> | <img src="ScreenShots/Project/top_view.jpg" width="350" height="450"/> | <img src="ScreenShots/Project/right_view.jpg" width="350" height="450"/>
+Front | Top 
+:-------------------------:|:-------------------------:|
+<img src="ScreenShots/Project/front_view.jpg" width="200" height="250"/> | <img src="ScreenShots/Project/top_view.jpg" width="200" height="250"/> 
+
+| Right  | 
+| ------------- | 
+| <img src="ScreenShots/Project/right_view.jpg" width="200" height="250"/> |
 
 ## App Layout
 
-No Connection | Setting Up | Take Selfie | Sending Photo 
-:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
-<img src="ScreenShots/Regular%20Device/waiting_for_connection_oneplus-oneplus8pro-portrait.png" width="250" height="450"/> | <img src="ScreenShots/Regular%20Device/Initial_set_up_oneplus-oneplus8pro-portrait.png" width="250" height="450"/> | <img src="ScreenShots/Regular%20Device/device_connected_for_setup_oneplus-oneplus8pro-portrait.png" width="250" height="450"/> | <img src="ScreenShots/Regular%20Device/sending_photo_oneplus-oneplus8pro-portrait.png" width="250" height="450"/> 
+No Connection | Setting Up |
+:-------------------------:|:-------------------------:|
+<img src="ScreenShots/Regular%20Device/waiting_for_connection_oneplus-oneplus8pro-portrait.png" width="120" height="250"/> | <img src="ScreenShots/Regular%20Device/Initial_set_up_oneplus-oneplus8pro-portrait.png" width="120" height="250"/> 
+
+|Take Selfie | Sending Photo  |
+| ------------- | ------------- |
+| <img src="ScreenShots/Regular%20Device/device_connected_for_setup_oneplus-oneplus8pro-portrait.png" width="120" height="250"/> | <img src="ScreenShots/Regular%20Device/sending_photo_oneplus-oneplus8pro-portrait.png" width="120" height="250"/>   |
 
 Image Received | Dashboard | Settings Page
 :-------------------------:|:-------------------------:|:-------------------------:
-<img src="ScreenShots/Regular%20Device/image_received_oneplus-oneplus8pro-portrait.png" width="250" height="450"/> |<img src="ScreenShots/Regular%20Device/device_connected_oneplus-oneplus8pro-portrait.png" width="250" height="450"/> |<img src="ScreenShots/Regular%20Device/settings_page_oneplus-oneplus8pro-portrait.png" width="250" height="450"/> 
+<img src="ScreenShots/Regular%20Device/image_received_oneplus-oneplus8pro-portrait.png" width="120" height="250"/> |<img src="ScreenShots/Regular%20Device/device_connected_oneplus-oneplus8pro-portrait.png" width="120" height="250"/> |<img src="ScreenShots/Regular%20Device/settings_page_oneplus-oneplus8pro-portrait.png" width="120" height="250"/> 
 
 ## Video Demo
 Click Image to play Demo on Youtube
